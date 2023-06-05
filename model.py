@@ -99,7 +99,7 @@ def create_early_stop() -> tf.keras.callbacks.EarlyStopping:
         monitor='val_loss',
         mode='min',
         verbose=1,
-        patience=10
+        patience=20
     )
 
 
@@ -113,7 +113,7 @@ def training_model(model_to_train: Sequential):
     model_to_train.fit(
         x=x_train,
         y=y_train,
-        epochs=10,
+        epochs=100,
         validation_data=(x_test, y_test),
         callbacks=[tensorboard_callback, early_stop]
     )

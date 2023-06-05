@@ -47,6 +47,24 @@ def bytes_to_image(bytes_data: bytes) -> Image.Image:
     return img
 
 
+def sharpen_image(img: Image.Image) -> Image.Image:
+    enhancer = ImageEnhance.Sharpness(img)
+    image = enhancer.enhance(5.0)
+
+    return image
+
+
+def reduce_noise(img: Image.Image) -> Image.Image:
+    return img.filter(ImageFilter.MedianFilter)
+
+
+def improve_image(image: Image.Image) -> Image.Image:
+    image = sharpen_image(image)
+    image = reduce_noise(image)
+
+    return image
+
+
 def image_to_numpy(image: Image) -> np.ndarray:
     return np.array(image)
 
@@ -88,13 +106,13 @@ def predict(req_body: Request):
     base64_img_data = req_body.img_base64
 
     # Convert base64 to bytes
-    base64_bytes = base64_to_bytes(base64_img_data)
+    bytes_from_base64 = base64_to_bytes(base64_img_data)
 
     # Convert bytes to image
-    bytes_img = bytes_to_image(base64_bytes)
+    image_from_bytes = bytes_to_image(bytes_from_base64)
 
     # Convert image to numpy array
-    image_array = image_to_numpy(bytes_img)
+    image_array = image_to_numpy(image_from_bytes)
 
     # Process image
     processed_img = process_image(image_array)
