@@ -3,6 +3,7 @@ import os
 import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Convolution2D, MaxPooling2D, Flatten, Dense, Dropout
+from keras.utils import plot_model
 import numpy as np
 from preprocess import reshape_data, normalize_data
 
@@ -65,7 +66,7 @@ def create_model() -> Sequential:
     ))
 
     sequential_model.add(Flatten())
-    sequential_model.add(Dropout(.2))
+    sequential_model.add(Dropout(.3))
 
     sequential_model.add(Dense(
         units=10,
@@ -74,7 +75,7 @@ def create_model() -> Sequential:
     ))
 
     # Compile the model
-    adam_optimizer = tf.keras.optimizers.Adam(learning_rate=.001)
+    adam_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
 
     sequential_model.compile(
         optimizer=adam_optimizer,
